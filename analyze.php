@@ -12,6 +12,7 @@
   }
 ?>
 
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -23,17 +24,15 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>Book.io - Books</title>
+  <title>Book.io - Dashboard</title>
 
-  <!-- Custom fonts for this template -->
+  <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
-  <!-- Custom styles for this template -->
+  <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
-  <!-- Custom styles for this page -->
-  <link href="vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
 </head>
 
@@ -54,7 +53,7 @@
       <hr class="sidebar-divider my-0">
 
       <!-- Nav Item - Dashboard -->
-      <li class="nav-item">
+      <li class="nav-item active">
         <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -135,6 +134,13 @@
           <span>Charts</span></a>
       </li>
 
+      <!-- Nav Item - Tables -->
+      <li class="nav-item">
+        <a class="nav-link" href="tables.html">
+          <i class="fas fa-fw fa-table"></i>
+          <span>Tables</span></a>
+      </li>
+
       <!-- Divider -->
       <hr class="sidebar-divider d-none d-md-block">
 
@@ -163,6 +169,25 @@
           <!-- Topbar Navbar -->
           <ul class="navbar-nav ml-auto">
 
+            <!-- Nav Item - Search Dropdown (Visible Only XS) -->
+            <li class="nav-item dropdown no-arrow d-sm-none">
+              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="fas fa-search fa-fw"></i>
+              </a>
+              <!-- Dropdown - Messages -->
+              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
+                <form class="form-inline mr-auto w-100 navbar-search">
+                  <div class="input-group">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                      <button class="btn btn-primary" type="button">
+                        <i class="fas fa-search fa-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </li>
 
           </ul>
 
@@ -173,75 +198,45 @@
         <div class="container-fluid">
 
           <!-- Page Heading -->
-          <h1 class="h3 mb-2 text-gray-800">Books</h1>
+          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Analyze Book File</h1>
+          </div>
 
-          <!-- DataTales Example -->
-          <div class="card shadow mb-4">
-            <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Books</h6>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                  <thead>
-                    <tr>
-                      <th>BookID</th>
-                      <th>Title</th>
-                      <th>Publisher</th>
-                      <th>Grade</th>
-                      <th>Jacket Condition</th>
-                      <th>BindingType</th>
-                      <th>Genre</th>
-                      <th>ISBN</th>
-                      <th>Edition</th>
-                      <th>Number Pages</th>
-                      <th>Notes</th>
-                    </tr>
-                  </thead>
-                  <tfoot>
-                    <tr>
-                      <th>BookID</th>
-                      <th>Title</th>
-                      <th>Publisher</th>
-                      <th>Grade</th>
-                      <th>Jacket Condition</th>
-                      <th>BindingType</th>
-                      <th>Genre</th>
-                      <th>ISBN</th>
-                      <th>Edition</th>
-                      <th>Number Pages</th>
-                      <th>Notes</th>
-                    </tr>
-                  </tfoot>
-                  <tbody>
-
-                  <?php 
-                    $result = mysqli_query($dbCon,"SELECT * FROM Book;");
-                    while($row = mysqli_fetch_array($result))
-                    {
-                      echo '<tr>
-                      ';
-                        echo '<td>' . $row['BookID'] . '</td>';
-                        echo '<td>' . $row['Title'] . '</td>';
-                        echo '<td>' . $row['Publisher'] . '</td>';
-                        echo '<td>' . $row['Grade'] . '</td>';
-                        echo '<td>' . $row['JacketCondition'] . '</td>';
-                        echo '<td>' . $row['BindingType'] . '</td>';
-                        echo '<td>' . $row['Genre'] . '</td>';
-                        echo '<td>' . $row['ISBN'] . '</td>';
-                        echo '<td>' . $row['Edition'] . '</td>';
-                        echo '<td>' . $row['NumPages'] . '</td>';
-                        echo '<td>' . $row['Notes'] . '</td>
-                        ';
-                        echo '</tr>
-                        ';
-                    }
-                    
-                  ?>
-                  </tbody>
-                </table>
+          <!-- Content Row -->
+          <div class="row">
+            <form>
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="customFile" accept=".txt">
+                <label class="custom-file-label" for="customFile">Choose file</label>
               </div>
+              <div class="mt-3">
+              <button type="submit" class="btn btn-primary">Submit</button>
             </div>
+            </form>
+
+            <script>
+            // Add the following code if you want the name of the file appear on select
+            $(".custom-file-input").on("change", function() {
+              var fileName = $(this).val().split("\\").pop();
+              $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+            });
+            </script>
+          </div>
+
+          <!-- Content Row -->
+
+          <div class="row">
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!-- Content Column -->
+            <div class="col-lg-6 mb-4">
+
+            </div>
+
+            
           </div>
 
         </div>
@@ -298,12 +293,11 @@
   <script src="js/sb-admin-2.min.js"></script>
 
   <!-- Page level plugins -->
-  <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-  <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+  <script src="vendor/chart.js/Chart.min.js"></script>
 
   <!-- Page level custom scripts -->
-  <script src="js/demo/datatables-demo.js"></script>
-
+  <script src="js/demo/chart-area-demo.js"></script>
+  <!-- <script src="js/demo/chart-pie-demo.js"></script> -->
 </body>
 
 </html>
