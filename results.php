@@ -204,23 +204,11 @@
 
           <!-- Content Row -->
           <div class="row">
-            <form action="results.php" method="post" enctype="multipart/form-data">
-              <div class="custom-file">
-                <input type="file" class="custom-file-input" id="fileToUpload" name="fileToUpload">
-                <label class="custom-file-label" for="fileToUpload">Choose file</label>
-              </div>
-              <div class="mt-3">
-                <button type="submit" class="btn btn-primary">Submit</button>
-              </div>
-            </form>
-
-            <script>
-            // Add the following code if you want the name of the file appear on select
-            $(".custom-file-input").on("change", function() {
-              var fileName = $(this).val().split("\\").pop();
-              $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
-            });
-            </script>
+            <?php 
+            $words = file_get_contents($_FILES['fileToUpload']['tmp_name']);
+            $freq = array_count_values(str_word_count($words, 1));
+            print_r($freq);
+            ?>
           </div>
 
           <!-- Content Row -->
