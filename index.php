@@ -24,7 +24,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>SB Admin 2 - Dashboard</title>
+  <title>Book.io - Dashboard</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -53,7 +53,7 @@
 
       <!-- Nav Item - Dashboard -->
       <li class="nav-item active">
-        <a class="nav-link" href="index.html">
+        <a class="nav-link" href="index.php">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
       </li>
@@ -63,8 +63,23 @@
 
       <!-- Heading -->
       <div class="sidebar-heading">
-        Interface
+        Operations
       </div>
+
+      <!-- Nav Item - Pages Collapse Menu -->
+      <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        <i class="fas fa-fw fa-table"></i>
+          <span>Data</span>
+        </a>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Custom Components:</h6>
+            <a class="collapse-item" href="books.php">Books</a>
+            <a class="collapse-item" href="authors.php">Authors</a>
+          </div>
+        </div>
+      </li>
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
@@ -320,9 +335,6 @@
       <!-- Footer -->
       <footer class="sticky-footer bg-white">
         <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright &copy; Your Website 2019</span>
-          </div>
         </div>
       </footer>
       <!-- End of Footer -->
@@ -376,12 +388,23 @@
   <script src="randomColor/randomColor.js"></script>
   <script>
 
+  randomColors = new Object();
+  randomColors[''] = "#000000";
+  randomColors['As New'] = "#ffcc00";
+  randomColors['Fair'] = "#5566ff";
+  randomColors['Fine'] = "#777777";
+  randomColors['Good'] = "#99ff00";
+  randomColors['New'] = "#ff00ff";
+  randomColors['Poor'] = "#ff0000";
+  randomColors['Poor, Very Poor'] = "#ff7700";
+  randomColors['Very Good'] = "#ff5588";
+
   <?php 
   $result = mysqli_query($dbCon,"SELECT Grade, COUNT(BookID) FROM Book GROUP BY Grade;");
   $index = 0;
   while($row = mysqli_fetch_array($result))
   {
-    echo 'document.getElementById("pie' . $index . '").style.color = randomColor();';
+    echo 'document.getElementById("pie' . $index . '").style.color = randomColors["' . $row['Grade'] . '"];';
     $index = $index + 1;
   } ?>
 
